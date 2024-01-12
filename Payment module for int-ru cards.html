@@ -1,0 +1,98 @@
+<style>
+  /* Стили только для блока оплаты */
+  .payment-form {
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px auto; /* Центрирование блока по горизонтали с отступом сверху и снизу */
+    background-color: #f2f2f2; /* Светло-серый фон */
+    font-family: 'Montserrat', sans-serif; /* Шрифт Montserrat */
+    max-width: 50%; /* Максимальная ширина блока 50% */
+  }
+
+  /* Стили для полей формы */
+  .payment-form input,
+  .payment-form select,
+  .payment-form button {
+    margin-top: 25px; /* Отступ между элементами */
+    margin-bottom: 10px; /* Отступ между элементами */
+    padding: 15px;
+    width: 100%;
+    box-sizing: border-box; /* Учитываем padding в ширине элемента */
+    font-size: 17px;
+    font-weight: bold;
+  }
+
+  /* Стили для кнопки */
+  .payment-form button {
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: default; /* Курсор по умолчанию */
+  }
+
+  .payment-form button.active {
+    cursor: pointer;
+  }
+
+  /* Стили для кнопки "Картой" */
+  .payment-form button.card {
+    background-color: #d3d3d3; /* Серый цвет кнопки "Картой" по умолчанию */
+    color: #808080; /* Цвет текста по умолчанию */
+  }
+
+  /* Стили для кнопки "Картой из России" */
+  .payment-form button.card_ru {
+    background-color: #f2f2f2; /* Цвет кнопки "Картой из России" */
+    color: #ffffff; /* Белый цвет текста */
+  }
+
+  /* Стили для активной кнопки "Картой" */
+  .payment-form button.card.active {
+    background-color: #2653d1; /* Цвет кнопки активной "Картой" */
+    color: #ffffff; /* Белый цвет текста */
+  }
+</style>
+
+<!-- Форма оплаты -->
+<div class="payment-form">
+  <form id="paymentForm">
+    <input type="email" placeholder="Введите ваш email" required><br>
+    <select id="paymentMethod" required>
+      <option value="" disabled selected>Выберите способ оплаты</option>
+      <option value="card">Картой</option>
+      <option value="card_ru">Картой из России</option>
+    </select><br>
+    <button type="submit" class="card" disabled>Оплатить</button>
+  </form>
+</div>
+
+<script>
+  // Получаем все элементы формы
+  const form = document.getElementById('paymentForm');
+  const emailInput = form.querySelector('input[type="email"]');
+  const paymentMethodSelect = form.querySelector('#paymentMethod');
+  const paymentButton = form.querySelector('button');
+
+  // Функция для проверки, активировать или деактивировать кнопку оплаты
+  function checkPaymentValidity() {
+    if (emailInput.validity.valid && paymentMethodSelect.value === 'card') {
+      paymentButton.classList.add('active', 'card');
+      paymentButton.removeAttribute('disabled');
+      paymentButton.setAttribute('onclick', 'window.open(" ", "_blank")'); //add link
+    } else if (emailInput.validity.valid && paymentMethodSelect.value === 'card_ru') {
+      paymentButton.classList.remove('active', 'card');
+      paymentButton.classList.add('card_ru');
+      paymentButton.removeAttribute('disabled');
+      paymentButton.setAttribute('onclick', 'window.open(" ", "_blank")'); //add script
+    } else {
+      paymentButton.classList.remove('active', 'card_ru');
+      paymentButton.classList.add('card');
+      paymentButton.setAttribute('disabled', true);
+      paymentButton.removeAttribute('onclick');
+    }
+  }
+
+  // Слушаем изменения в форме для активации кнопки оплаты
+  form.addEventListener('input', checkPaymentValidity);
+</script>
