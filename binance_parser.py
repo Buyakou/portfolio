@@ -9,14 +9,14 @@ class CryptoCurrencyParserApp:
         self.root = root
         self.root.title("Crypto Currency Parser")
 
-        self.currency_label = ttk.Label(root, text="Валюта:")
+        self.currency_label = ttk.Label(root, text="Currency:")
         self.currency_label.pack()
 
         self.currency_var = tk.StringVar()
-        self.currency_combobox = ttk.Combobox(root, textvariable=self.currency_var, values=["GBR", "BYN"])
+        self.currency_combobox = ttk.Combobox(root, textvariable=self.currency_var, values=["GBR"])
         self.currency_combobox.pack()
 
-        self.start_button = ttk.Button(root, text="Начать парсинг", command=self.start_parsing)
+        self.start_button = ttk.Button(root, text="Start parsing", command=self.start_parsing)
         self.start_button.pack()
 
         self.tree = ttk.Treeview(root, columns=("Price", "Currency", "Available", "Nickname"))
